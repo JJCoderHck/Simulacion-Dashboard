@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard para monitorear datos de CanSat en tiempo real">
+    <title>CanSat Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <h1>🚀 CanSat Dashboard</h1>
+    <span id="status" aria-live="polite">● DESCONECTADO</span>
+</header>
+
+<main>
+    <section class="grid" aria-label="Datos del CanSat">
+        <div class="card" tabindex="0">
+            <h3>Altitud</h3>
+            <p id="altitude">--</p>
+        </div>
+        <div class="card" tabindex="0">
+            <h3>Temperatura</h3>
+            <p id="temperature">--</p>
+        </div>
+        <div class="card" tabindex="0">
+            <h3>Batería</h3>
+            <p id="battery">--</p>
+        </div>
+        <div class="card" tabindex="0">
+            <h3>Velocidad Descenso</h3>
+            <p id="speed">--</p>
+        </div>
+        <div class="card" tabindex="0">
+            <h3>Fase</h3>
+            <p id="phase">--</p>
+        </div>
+        <div class="card" tabindex="0">
+            <h3>GPS</h3>
+            <p id="gps">--</p>
+        </div>
+    </section>
+
+    <section class="controls" aria-label="Controles">
+        <button onclick="sendCommand('start')">▶ Start</button>
+        <button onclick="sendCommand('stop')">■ Stop</button>
+    </section>
+</main>
+
+<footer>
+    <p>© 2026 CanSat Dashboard. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
