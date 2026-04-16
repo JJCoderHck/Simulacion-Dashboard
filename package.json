@@ -1,0 +1,26 @@
+{
+  "name": "cansat-dashboard",
+  "version": "1.0.0",
+  "description": "Dashboard en tiempo real para monitoreo de datos de CanSat durante vuelo",
+  "main": "index.html",
+  "scripts": {
+    "start": "python simulator.py",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cansat",
+    "dashboard",
+    "websocket",
+    "flight-data",
+    "simulator"
+  ],
+  "author": "Tu Equipo",
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^4.5.1"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

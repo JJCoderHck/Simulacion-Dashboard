@@ -432,9 +432,9 @@ class SilentHTTPHandler(http.server.SimpleHTTPRequestHandler):
         pass  # suppress request logs
 
     def do_GET(self):
-        # Serve dashboard/index.html at root
+        # Serve index.html at root
         if self.path == "/" or self.path == "":
-            self.path = "/dashboard/index.html"
+            self.path = "/index.html"
         return super().do_GET()
 
 def run_http_server():
