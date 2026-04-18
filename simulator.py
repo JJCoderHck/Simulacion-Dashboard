@@ -432,14 +432,14 @@ class SilentHTTPHandler(http.server.SimpleHTTPRequestHandler):
         pass  # suppress request logs
 
     def do_GET(self):
-        # Serve index.html at root
+        # Serve landing.html at root
         if self.path == "/" or self.path == "":
-            self.path = "/index.html"
+            self.path = "/landing.html"
         return super().do_GET()
 
 def run_http_server():
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    server = http.server.HTTPServer(("localhost", HTTP_PORT), SilentHTTPHandler)
+    server = http.server.HTTPServer(("0.0.0.0", HTTP_PORT), SilentHTTPHandler)
     server.serve_forever()
 
 # ─────────────────────────────────────────
@@ -460,7 +460,7 @@ async def main():
     http_thread.start()
 
     # Start WebSocket server + broadcast loop
-    async with websockets.serve(ws_handler, "localhost", WS_PORT):
+    async with websockets.serve(ws_handler, "0.0.0.0", WS_PORT):
         await broadcast_loop()
 
 if __name__ == "__main__":

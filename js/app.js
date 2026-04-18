@@ -141,7 +141,7 @@ function connectWebSocket() {
     const status = document.getElementById("status");
 
     try {
-        ws = new WebSocket('ws://localhost:8765');
+        ws = new WebSocket('ws://127.0.0.1:8765');
 
         ws.onopen = () => {
             console.log('✓ WebSocket Connected');
