@@ -12,102 +12,314 @@
 </head>
 <body>
 
-<header>
-    <h1>🚀 CanSat Dashboard</h1>
-    <span id="status" aria-live="polite">● DESCONECTADO</span>
+<style>
+    /* Diseño avanzado de la cabecera */
+    .cyber-header {
+        background: linear-gradient(to bottom, #11151c 0%, #0d1117 100%);
+        border-bottom: 1px solid #30363d;
+        position: relative;
+        padding: 20px 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+    .cyber-header::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; height: 1px;
+        background: linear-gradient(90deg, transparent, #58a6ff, transparent);
+    }
+    .cyber-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    /* Segmento Izquierdo: Módulo/Icono */
+    .cyber-logo {
+        display: flex;
+        align-items: center;
+        width: 250px;
+    }
+    .logo-icon {
+        font-size: 38px;
+        filter: drop-shadow(0 0 8px rgba(88, 166, 255, 0.4));
+    }
+    .logo-text {
+        padding-left: 15px;
+        border-left: 1px solid #30363d;
+        margin-left: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+    .logo-text span:first-child {
+        font-size: 11px; color: #5a7a99; font-family: 'Courier New', monospace; font-weight: bold; letter-spacing: 2px;
+    }
+    .logo-text span:last-child {
+        font-size: 12px; color: #8b949e; font-family: 'Courier New', monospace; letter-spacing: 0.5px;
+    }
+
+    /* Segmento Central: Títulos */
+    .cyber-titles {
+        text-align: center;
+        flex: 1;
+    }
+    .cyber-titles h1 {
+        color: #ffffff; 
+        font-family: 'Courier New', monospace; 
+        font-size: 28px; 
+        font-weight: 800; 
+        margin: 0 0 5px 0; 
+        letter-spacing: 4px; 
+        text-shadow: 0 2px 10px rgba(0, 255, 127, 0.2);
+    }
+    .cyber-titles h2 {
+        color: #58a6ff; 
+        font-family: 'Roboto', sans-serif; 
+        font-size: 13px; 
+        font-weight: 600; 
+        margin: 0; 
+        letter-spacing: 6px; 
+        text-transform: uppercase;
+    }
+
+    /* Segmento Derecho: Reloj y Conexión */
+    .cyber-status {
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        width: 250px;
+    }
+    .sys-time {
+        font-family: 'Courier New', monospace; 
+        font-size: 12px; 
+        color: #8b949e; 
+        margin-bottom: 8px;
+    }
+    .sys-clock-val {
+        color: #a8b8cc; 
+        font-weight: bold;
+    }
+    .status-container {
+        background: rgba(0, 0, 0, 0.5); 
+        padding: 6px 14px; 
+        border-radius: 4px; 
+        border: 1px solid #30363d; 
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+    }
+    #status {
+        font-family: Roboto; 
+        font-size: 13px; 
+        font-weight: bold; 
+        color: #ff4444; /* Rojo por defecto */
+        letter-spacing: 1px;
+    }
+</style>
+
+<header class="cyber-header">
+    <div class="cyber-content">
+        <!-- Logo Izquierdo -->
+        <div class="cyber-logo">
+            <span class="logo-icon">🛰️</span>
+            <div class="logo-text">
+                <span>NODE_01</span>
+                <span>ON-LINE</span>
+            </div>
+        </div>
+
+        <!-- Títulos Centrales -->
+        <div class="cyber-titles">
+            <h1>CUBESAT DASHBOARD</h1>
+            <h2>Estación Terrena - Misión Activa</h2>
+        </div>
+
+        <!-- Estados Derecha -->
+        <div class="cyber-status">
+            <div class="sys-time">SYS_TIME // <span class="sys-clock-val" id="sys-clock">00:00:00</span></div>
+            <div class="status-container">
+                <span id="status" aria-live="polite">● DESCONECTADO</span>
+            </div>
+        </div>
+    </div>
 </header>
 
+<script>
+    // Actualizar el reloj de sistema de la cabecera
+    setInterval(() => {
+        const el = document.getElementById('sys-clock');
+        if(el) {
+            const now = new Date();
+            el.textContent = now.toLocaleTimeString('en-US', {hour12: false}) + '.' + Math.floor(now.getMilliseconds()/100);
+        }
+    }, 100);
+</script>
+
+<nav class="tab-nav">
+    <button class="tab-btn active" onclick="openTab(event, 'tab-mapa')">Mapa Orbital</button>
+    <button class="tab-btn" onclick="openTab(event, 'tab-sensores')">Sensores y Gráficos</button>
+    <button class="tab-btn" onclick="openTab(event, 'tab-camara')">Cámara en Vivo</button>
+</nav>
+
 <main>
-    <!-- Sección de datos obligatorios -->
-    <section class="grid" aria-label="Datos mandatorios del CanSat">
-        <div class="card mandatory" tabindex="0">
-            <h3>Altitud GPS</h3>
-            <p id="altitude">--</p>
-            <small>metros</small>
-        </div>
-        <div class="card mandatory" tabindex="0">
-            <h3>Temperatura</h3>
-            <p id="temperature">--</p>
-            <small>°C</small>
-        </div>
-        <div class="card mandatory" tabindex="0">
-            <h3>Batería</h3>
-            <p id="battery">--</p>
-            <small>V</small>
-        </div>
-        <div class="card mandatory" tabindex="0">
-            <h3>Inclinación X</h3>
-            <p id="inclinationX">--</p>
-            <small>grados</small>
-        </div>
-        <div class="card mandatory" tabindex="0">
-            <h3>Inclinación Y</h3>
-            <p id="inclinationY">--</p>
-            <small>grados</small>
-        </div>
-        <div class="card mandatory" tabindex="0">
-            <h3>Fase</h3>
-            <p id="phase">--</p>
-        </div>
-    </section>
-
-    <!-- Sección de datos adicionales -->
-    <section class="grid" aria-label="Datos adicionales del CanSat">
-        <div class="card" tabindex="0">
-            <h3>Velocidad Descenso</h3>
-            <p id="speed">--</p>
-            <small>m/s</small>
-        </div>
-        <div class="card" tabindex="0">
-            <h3>GPS (Lat, Lon)</h3>
-            <p id="gps">--</p>
-            <small>grados</small>
-        </div>
-        <div class="card" tabindex="0">
-            <h3>Humedad</h3>
-            <p id="humidity">--</p>
-            <small>%</small>
-        </div>
-        <div class="card" tabindex="0">
-            <h3>Presión</h3>
-            <p id="pressure">--</p>
-            <small>hPa</small>
-        </div>
-        <div class="card" tabindex="0">
-            <h3>Satélites GPS</h3>
-            <p id="satellites">--</p>
-        </div>
-        <div class="card" tabindex="0">
-            <h3>Tiempo Transcurrido</h3>
-            <p id="timestamp">--</p>
-            <small>s</small>
-        </div>
-    </section>
-
-    <!-- Gráficos -->
-    <section class="charts-section" aria-label="Gráficos en tiempo real">
-        <h2>Gráficos en Tiempo Real</h2>
-        <div class="charts-container">
-            <div class="chart-wrapper">
-                <canvas id="altitudeChart"></canvas>
+    <!-- PESTAÑA 1: Mapa Orbital -->
+    <div id="tab-mapa" class="tab-content active">
+        <div class="tab-container">
+            <div class="orbital-map">
+                <div class="map-overlay">
+                    <div class="top-bar">
+                        <span>🛰 SAT-1</span>
+                        <span>ALT: <span id="map-alt">--</span> m</span>
+                        <span>GPS: <span id="map-gps">--</span></span>
+                    </div>
+                </div>
+                <canvas id="orbitalMapCanvas"></canvas>
             </div>
-            <div class="chart-wrapper">
-                <canvas id="temperatureChart"></canvas>
+            <div class="orbital-panel">
+                <h3>Datos de Vuelo</h3>
+                <div class="coord-box">
+                    <div class="coord-item">
+                        <label>Fase de Vuelo</label>
+                        <p id="phase">--</p>
+                    </div>
+                    <div class="coord-item">
+                        <label>Satélites GPS</label>
+                        <p id="satellites">--</p>
+                    </div>
+                </div>
+                <div class="attitude-indicators">
+                    <div class="indicator-item">
+                        <label>Inclinación X: <span id="inclinationX">--</span>°</label>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 50%" id="bar-inclX"></div></div>
+                    </div>
+                    <div class="indicator-item">
+                        <label>Inclinación Y: <span id="inclinationY">--</span>°</label>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 50%" id="bar-inclY"></div></div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+    
+    <!-- PESTAÑA 2: Sensores -->
+    <div id="tab-sensores" class="tab-content">
+        <p class="sensor-timestamp">Tiempo Transcurrido: <span id="timestamp">--</span> s</p>
+        
+        <section class="sensors-grid" aria-label="Sensores del CanSat">
+            <div class="sensor-card">
+                <h4>Altitud GPS</h4>
+                <p class="sensor-value" id="altitude">--</p>
+                <small>metros</small>
+            </div>
+            <div class="sensor-card">
+                <h4>Temperatura</h4>
+                <p class="sensor-value" id="temperature">--</p>
+                <small>°C</small>
+            </div>
+            <div class="sensor-card">
+                <h4>Batería</h4>
+                <p class="sensor-value" id="battery">--</p>
+                <small>V</small>
+            </div>
+            <div class="sensor-card">
+                <h4>Velocidad Descenso</h4>
+                <p class="sensor-value" id="speed">--</p>
+                <small>m/s</small>
+            </div>
+            <div class="sensor-card">
+                <h4>Humedad</h4>
+                <p class="sensor-value" id="humidity">--</p>
+                <small>%</small>
+            </div>
+            <div class="sensor-card">
+                <h4>Presión</h4>
+                <p class="sensor-value" id="pressure">--</p>
+                <small>hPa</small>
+            </div>
+        </section>
 
-    <!-- Controles -->
-    <section class="controls" aria-label="Controles del simulador">
-        <button onclick="sendCommand('start')">▶ Start</button>
-        <button onclick="sendCommand('pause')">⏸ Pause</button>
-        <button onclick="sendCommand('reset')">↻ Reset</button>
-    </section>
+        <!-- Gráficos -->
+        <section class="charts-section" aria-label="Gráficos en tiempo real">
+            <h2>Análisis de Vuelo</h2>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <canvas id="altitudeChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <canvas id="temperatureChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Terminal de Datos -->
+        <div class="data-terminal">
+            <h3>Terminal de Telemetría</h3>
+            <div class="terminal-output" id="telemetry-terminal">
+                > Esperando conexión...<br>
+            </div>
+        </div>
+    </div>
+
+    <!-- PESTAÑA 3: Cámara -->
+    <div id="tab-camara" class="tab-content">
+        <div class="camera-container">
+            <div class="video-feed">
+                <canvas id="cameraFeedCanvas" style="background:#111;"></canvas>
+                <div class="video-overlay">
+                    <div class="timestamp" id="cam-timestamp">00:00:00</div>
+                </div>
+            </div>
+            <div class="camera-stats">
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <p class="stat-value">FPS</p>
+                        <small>30.0</small>
+                    </div>
+                    <div class="stat-box">
+                        <p class="stat-value" id="gps">--</p>
+                        <small>GPS Localización</small>
+                    </div>
+                </div>
+                <div class="quality-bar">
+                    <small style="color: #8b949e; display:block; margin-bottom: 5px;">Calidad de Señal</small>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 
 <footer>
-    <p>© 2026 CanSat Dashboard. Todos los derechos reservados.</p>
+    <p>© 2026 CubeSat Dashboard. Todos los derechos reservados.</p>
 </footer>
+
+<script>
+function openTab(evt, tabId) {
+    let i, tabcontent, tablinks;
+    
+    // Ocultar todas las pestañas
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+        tabcontent[i].classList.remove("active");
+    }
+    
+    // Remover clase active de todos los botones
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+    }
+    
+    // Mostrar pestaña actual
+    let currentTab = document.getElementById(tabId);
+    if(currentTab) {
+        currentTab.style.display = "block";
+        currentTab.classList.add("active");
+    }
+    evt.currentTarget.classList.add("active");
+}
+</script>
 
 <script src="js/app.js"></script>
 

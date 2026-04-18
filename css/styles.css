@@ -576,7 +576,7 @@ main {
     border-radius: 8px;
     font-family: 'Courier New', monospace;
     font-size: 10px;
-    color: #a8b8cc;
+    color: #ffffff;
     max-height: 150px;
     overflow-y: auto;
     line-height: 1.4;
@@ -1179,7 +1179,7 @@ main {
     border-radius: 8px;
     font-family: 'Courier New', monospace;
     font-size: 11px;
-    color: #00ff7f;
+    color: #ffffff;
     max-height: 300px;
     overflow-y: auto;
     line-height: 1.4;
